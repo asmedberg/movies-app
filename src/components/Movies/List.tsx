@@ -2,11 +2,22 @@ import Image from "next/image";
 import type { MovieProps } from "./types";
 import styles from "./movies.module.css";
 
-export default function List({ movies, isLoading }: { movies: MovieProps[]; isLoading: boolean }) {
-  if (isLoading) return <p>Loading...</p>;
+const Skeleton = ({ items }: { items: number }) => {
   return (
     <div className={styles.listLayout}>
-      {movies?.map(m => (
+      {Array.from({ length: items }, (_, i) => (
+        <div key={i} className={styles.loadingItem} />
+      ))}
+    </div>
+  );
+};
+
+export default function List({ movies, isLoading }: { movies: MovieProps[]; isLoading: boolean }) {
+  if (isLoading) return <Skeleton items={20} />;
+
+  return (
+    <div className={styles.listLayout}>
+      {movies.map(m => (
         <div key={m.id} className={styles.listItem}>
           <Image
             src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
