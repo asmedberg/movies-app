@@ -1,0 +1,31 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.content {
+  max-width: 40rem;
+  width: 100%;
+  min-height: 90vh;
+  background: var(--card-bg-color);
+  pointer-events: auto;
+}
+
+.button {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 30;
+}

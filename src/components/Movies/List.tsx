@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { MovieProps } from "./types";
 import styles from "./movies.module.css";
 
@@ -18,7 +19,7 @@ export default function List({ movies, isLoading }: { movies: MovieProps[]; isLo
   return (
     <div className={styles.listLayout}>
       {movies.map(m => (
-        <div key={m.id} className={styles.listItem}>
+        <Link key={m.id} href={`/movie/${m.id}`} className={styles.listItem}>
           <Image
             src={`https://image.tmdb.org/t/p/w342${m.poster_path}`}
             alt={`${m.original_title} Poster`}
@@ -28,7 +29,7 @@ export default function List({ movies, isLoading }: { movies: MovieProps[]; isLo
             sizes="(max-width: 40rem) 50vw, (max-width: 48rem) 25vw, 16rem"
             className={styles.listImage}
           />
-        </div>
+        </Link>
       ))}
     </div>
   );
