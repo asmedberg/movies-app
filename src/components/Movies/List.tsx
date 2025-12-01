@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { MovieProps } from "./types";
+import type { MovieListProps } from "./types";
 import styles from "./movies.module.css";
 
 const Skeleton = ({ items }: { items: number }) => {
@@ -13,7 +13,7 @@ const Skeleton = ({ items }: { items: number }) => {
   );
 };
 
-export default function List({ movies, isLoading }: { movies: MovieProps[]; isLoading: boolean }) {
+export default function List({ movies, isLoading }: { movies: MovieListProps[]; isLoading: boolean }) {
   if (isLoading) return <Skeleton items={20} />;
 
   return (

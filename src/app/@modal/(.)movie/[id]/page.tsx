@@ -1,7 +1,7 @@
 import { Modal } from "@/components/ui/Modal";
 import MovieDetails from "@/components/Movies/MovieDetails";
 
-export default async function Page({ params }: { params: Promise<{ id: number }> }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   return (
     <Modal>
