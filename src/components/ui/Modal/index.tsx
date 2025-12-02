@@ -1,11 +1,18 @@
 "use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./modal.module.css";
 
 export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-
   const closeModal = () => router.back();
+
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style = "";
+    };
+  }, []);
 
   return (
     <>
