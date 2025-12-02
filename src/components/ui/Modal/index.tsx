@@ -17,10 +17,11 @@ export function Modal({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className={styles.overlay} onClick={closeModal} />
+      <button onClick={closeModal} className={styles.button}>
+        <span>X</span>
+        <span className="sr-only">Close modal</span>
+      </button>
       <div className={styles.container}>
-        <button onClick={closeModal} className={styles.button}>
-          Close modal
-        </button>
         <div className={styles.content}>{children}</div>
       </div>
     </>
