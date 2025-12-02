@@ -8,9 +8,15 @@ export function Modal({ children }: { children: React.ReactNode }) {
   const closeModal = () => router.back();
 
   useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
+    const html = document.documentElement;
+    const main = document.getElementsByTagName("main")[0];
+
+    html.style.overflow = "hidden";
+    main.inert = true;
+
     return () => {
-      document.documentElement.style = "";
+      html.style = "";
+      main.inert = false;
     };
   }, []);
 
