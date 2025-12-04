@@ -2,8 +2,8 @@
 import Image from "next/image";
 import useSWR from "swr";
 import { fetcher } from "@/lib/swr/fetcher";
-import styles from "./movies.module.css";
-import type { MovieDetailsProps } from "./types";
+import styles from "./details.module.css";
+import type { MovieDetailsProps } from "../types";
 
 export default function MovieDetails({ id }: { id: string }) {
   const { data: movie, error, isLoading } = useSWR<MovieDetailsProps, Error>(`/api/movie-details/${id}`, fetcher);
@@ -17,31 +17,32 @@ export default function MovieDetails({ id }: { id: string }) {
   if (!movie) return null;
 
   return (
-    <>
-      <div className={styles.detailsHeader}>
+    <div className={styles.container}>
+      <div className={styles.header}>
         <Image
           src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
           alt={`${movie.title} Backdrop`}
           width="780"
           height="439"
           sizes="(max-width: 48rem) 100vw, 48rem"
-          className={styles.detailsImage}
+          className={styles.backdropImage}
         />
-        <div className={styles.detailsTitle}>
+        <div className={styles.title}>
           <h1>{movie.title}</h1>
         </div>
       </div>
-      <div className={styles.detailsContent}>
-        <div className={styles.detailsPoster}>
+      <div className={styles.content}>
+        <div className={styles.actions}>
           <Image
             src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
             alt={`${movie.title} Poster`}
             width="185"
             height="278"
+            className={styles.posterImage}
           />
         </div>
-        <div className={styles.detailsOverview}>
-          <div className={styles.detailsInfo}>
+        <div className={styles.overview}>
+          <div className={styles.info}>
             <div>
               <p>
                 <strong>YEAR</strong>
@@ -67,6 +68,6 @@ export default function MovieDetails({ id }: { id: string }) {
           <p>{movie.overview}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

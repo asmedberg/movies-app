@@ -10,7 +10,7 @@ interface GenreProps {
 }
 
 export default function GenreFilters() {
-  const [genres, setGenres] = useState<GenreProps[] | null>(null);
+  const [genres, setGenres] = useState<GenreProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
@@ -48,7 +48,7 @@ export default function GenreFilters() {
 
   return (
     <div className={styles.container}>
-      {genres?.map(g => (
+      {genres.map(g => (
         <GenreButton key={g.id} pathname="/" query={`${g.id}`} active={genre === String(g.id) ? true : false}>
           {g.name}
         </GenreButton>

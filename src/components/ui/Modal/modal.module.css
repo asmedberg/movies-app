@@ -19,7 +19,7 @@
   max-width: 48rem;
   width: 100%;
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   background: var(--card-bg-color);
   pointer-events: auto;
 }
