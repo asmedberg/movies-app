@@ -10,9 +10,9 @@ interface GenreProps {
 }
 
 export default function GenreFilters() {
-  const [genres, setGenres] = useState<GenreProps[]>([]);
+  const [genres, setGenres] = useState<GenreProps[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const genre = useSearchParams().get("genre");
 
@@ -24,8 +24,16 @@ export default function GenreFilters() {
         if (!response.ok) {
           console.log(response.statusText, response.status);
           setError(true);
+          return;
         }
-        setGenres(await response.json());
+
+        const jsonResponse = await response.json();
+
+        if (jsonResponse.error) {
+          setError(true);
+          return;
+        }
+        setGenres(jsonResponse.genres);
       } catch (error) {
         console.error(error);
         setError(true);
@@ -35,12 +43,12 @@ export default function GenreFilters() {
     getGenres().finally(() => setIsLoading(false));
   }, []);
 
-  if (error) return <p>Something went wrong!</p>;
+  if (error) return <p>Something went wrong fetching available genres!</p>;
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className={styles.container}>
-      {genres.map(g => (
+      {genres?.map(g => (
         <GenreButton key={g.id} pathname="/" query={`${g.id}`} active={genre === String(g.id) ? true : false}>
           {g.name}
         </GenreButton>

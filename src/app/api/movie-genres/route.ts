@@ -16,9 +16,9 @@ export async function GET() {
       return Response.json({ error: true, message: statusText });
     }
 
-    const { genres } = await res.json();
+    const jsonRes = await res.json();
 
-    return Response.json(genres);
+    return Response.json(jsonRes);
   } catch (error) {
     console.error(error);
     throw new Error(`Failed to fetch movie genres: ${error}`);
