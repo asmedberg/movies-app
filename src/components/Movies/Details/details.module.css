@@ -50,6 +50,14 @@
   }
 }
 
+.actions {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
 .overview {
   grid-column: span 2;
   display: flex;
@@ -59,6 +67,44 @@
 
   span {
     color: var(--subtext-color);
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 1;
+  color: var(--primary-color);
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &.add {
+    border-color: green;
+    color: green;
+
+    &:hover,
+    &:active {
+      background: green;
+      color: var(--text-color);
+    }
+  }
+
+  &.remove {
+    border-color: darkred;
+    color: darkred;
+
+    &:hover,
+    &:active {
+      background: darkred;
+      color: var(--text-color);
+    }
   }
 }
 
@@ -87,6 +133,8 @@
 
   .actions {
     grid-column: span 2;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .overview {

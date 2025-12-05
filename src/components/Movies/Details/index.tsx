@@ -1,12 +1,43 @@
 "use client";
+import useLocalStorage from "use-local-storage";
 import Image from "next/image";
 import useSWR from "swr";
 import { fetcher } from "@/lib/swr/fetcher";
 import styles from "./details.module.css";
 import type { MovieDetailsProps } from "../types";
 
+interface StorageValues {
+  id: number;
+  title: string;
+  poster: string;
+}
+
 export default function MovieDetails({ id }: { id: string }) {
   const { data: movie, error, isLoading } = useSWR<MovieDetailsProps, Error>(`/api/movie-details/${id}`, fetcher);
+  const [movieList, setMovieList] = useLocalStorage<StorageValues[]>("movie-list", []);
+  const hasMovie = movieList.find((m: StorageValues) => m.id === Number(id));
+
+  const handleAddToList = () => {
+    if (!movie) return;
+
+    const values: StorageValues = {
+      id: movie.id,
+      title: movie.title,
+      poster: movie.poster_path
+    };
+
+    if (!hasMovie) {
+      setMovieList(prev => [...(prev ?? []), values]);
+    }
+  };
+
+  const handleRemoveFromList = () => {
+    if (!movie) return;
+
+    const updatedList = movieList.filter(m => m.id !== movie.id);
+
+    setMovieList(updatedList);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) {
@@ -40,6 +71,15 @@ export default function MovieDetails({ id }: { id: string }) {
             height="278"
             className={styles.posterImage}
           />
+          {!hasMovie ? (
+            <button onClick={handleAddToList} className={`${styles.button} ${styles.add}`}>
+              + Add
+            </button>
+          ) : (
+            <button onClick={handleRemoveFromList} className={`${styles.button} ${styles.remove}`}>
+              - Remove
+            </button>
+          )}
         </div>
         <div className={styles.overview}>
           <div className={styles.info}>
