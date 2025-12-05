@@ -1,4 +1,5 @@
 "use client";
+import { useCallback } from "react";
 import useLocalStorage from "use-local-storage";
 import Image from "next/image";
 import useSWR from "swr";
@@ -15,9 +16,9 @@ interface StorageValues {
 export default function MovieDetails({ id }: { id: string }) {
   const { data: movie, error, isLoading } = useSWR<MovieDetailsProps, Error>(`/api/movie-details/${id}`, fetcher);
   const [movieList, setMovieList] = useLocalStorage<StorageValues[]>("movie-list", []);
-  const hasMovie = movieList.find((m: StorageValues) => m.id === Number(id));
+  const hasMovie = movieList?.find((m: StorageValues) => m.id === Number(id));
 
-  const handleAddToList = () => {
+  const handleAddToList = useCallback(() => {
     if (!movie) return;
 
     const values: StorageValues = {
@@ -29,15 +30,15 @@ export default function MovieDetails({ id }: { id: string }) {
     if (!hasMovie) {
       setMovieList(prev => [...(prev ?? []), values]);
     }
-  };
+  }, [movie, hasMovie, setMovieList]);
 
-  const handleRemoveFromList = () => {
+  const handleRemoveFromList = useCallback(() => {
     if (!movie) return;
 
-    const updatedList = movieList.filter(m => m.id !== movie.id);
+    const updatedList = (movieList ?? []).filter(m => m.id !== movie.id);
 
     setMovieList(updatedList);
-  };
+  }, [movie, movieList, setMovieList]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) {
